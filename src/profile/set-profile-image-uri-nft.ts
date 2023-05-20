@@ -49,7 +49,7 @@ export const setProfileImageUriNFT = async () => {
     ethereumAddress,
     nfts: [
       {
-        contractAddress: '0x60ae865ee4c725cd04353b5aab364553f56cef82',
+        contractAddress: '0xdb46d1dc155634fbc732f92e853b10b288ad5a1d',
         tokenId: '974',
         chainId: 80001,
       },

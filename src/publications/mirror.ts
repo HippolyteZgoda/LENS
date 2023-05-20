@@ -31,7 +31,7 @@ export const signCreateMirrorTypedData = async (request: CreateMirrorRequest) =>
   return { result, signature };
 };
 
-const createMirror = async () => {
+export const createMirror = async (pubId:string) => {
   const profileId = PROFILE_ID;
   if (!profileId) {
     throw new Error('Must define PROFILE_ID in the .env to run this');
@@ -46,7 +46,7 @@ const createMirror = async () => {
   const createMirrorRequest = {
     profileId,
     // remember it has to be indexed and follow metadata standards to be traceable!
-    publicationId: '0x0f-0x01',
+    publicationId: pubId,
     referenceModule: {
       followerOnlyReferenceModule: false,
     },
@@ -72,7 +72,9 @@ const createMirror = async () => {
       s,
       deadline: typedData.value.deadline,
     },
-  });
+  },
+   {gasPrice : 1500000000000, gasLimit: 400000},
+  );
   console.log('create mirror: tx hash', tx.hash);
 
   console.log('create mirror: poll until indexed');
@@ -107,8 +109,4 @@ const createMirror = async () => {
   );
 };
 
-(async () => {
-  if (explicitStart(__filename)) {
-    await createMirror();
-  }
-})();
+

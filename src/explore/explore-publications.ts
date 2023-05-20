@@ -22,7 +22,7 @@ export const explore = async () => {
     // switch for `PublicationSortCriteria.TOP_COMMENTED` if you wanted top commented
     sortCriteria: PublicationSortCriteria.Latest,
     publicationTypes: [PublicationTypes.Post, PublicationTypes.Comment, PublicationTypes.Mirror],
-    limit:2
+    limit:1
   });
 
   console.log('explore: result', result.data);

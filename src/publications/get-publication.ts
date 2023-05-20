@@ -13,13 +13,9 @@ const getPublicationRequest = async (request: PublicationQueryRequest, profileId
   return result.data.publication;
 };
 
-export const getPublication = async () => {
-  const result = await getPublicationRequest({ publicationId: '0x019590-0xd0' }, { profileId: '0x0181A6' });
+export const getPublication = async (id: string) => {
+  const result = await getPublicationRequest({ publicationId: id }, { profileId: "0x01B673" });
   console.log('publication: result', result);
 
   return result;
 };
-
-(async () => {
-  await getPublication();
-})();

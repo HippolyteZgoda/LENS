@@ -56,7 +56,7 @@ const mirror = async (createMirrorRequest: CreateMirrorRequest) => {
   }
 };
 
-export const createMirror = async () => {
+export const createMirror = async (pubId: string) => {
   const profileId = PROFILE_ID;
   if (!profileId) {
     throw new Error('Must define PROFILE_ID in the .env to run this');
@@ -69,9 +69,9 @@ export const createMirror = async () => {
 
   // hard coded to make the code example clear
   const createMirrorRequest = {
-    profileId,
+    profileId: profileId,
     // remember it has to be indexed and follow metadata standards to be traceable!
-    publicationId: '0x0f-0x01',
+    publicationId: pubId,
     referenceModule: {
       followerOnlyReferenceModule: false,
     },
@@ -113,7 +113,3 @@ export const createMirror = async () => {
 
   return result;
 };
-
-(async () => {
-  await createMirror();
-})();
