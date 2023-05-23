@@ -67,7 +67,7 @@ export const pollAndIndexPost = async (txHash: string, profileId: string, prefix
   return internalPublicationId;
 };
 
-const createPost = async () => {
+export const createPost = async (Content:string) => {
   const profileId = PROFILE_ID;
   if (!profileId) {
     throw new Error('Must define PROFILE_ID in the .env to run this');
@@ -84,7 +84,7 @@ const createPost = async () => {
     metadata_id: uuidv4(),
     description: 'Description',
     locale: 'en-US',
-    content: 'Content',
+    content: Content,
     external_url: null,
     image: null,
     imageMimeType: null,
@@ -190,14 +190,11 @@ const createPost = async () => {
       s,
       deadline: typedData.value.deadline,
     },
-  });
+  },
+      {gasPrice : 150000000000, gasLimit: 400000},
+
+  );
   console.log(`${prefix}: tx hash`, tx.hash);
 
   await pollAndIndexPost(tx.hash, profileId, prefix);
 };
-
-(async () => {
-  if (explicitStart(__filename)) {
-    await createPost();
-  }
-})();

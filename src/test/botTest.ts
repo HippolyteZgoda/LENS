@@ -7,6 +7,39 @@ import { createMirror  } from '../publications/mirror';
 import { getPublications } from '../publications/get-publications';
 import { getPublication } from '../publications/get-publication';
 import { getGatedPublication } from '../publications/get-publication-gated';
+import { createPost } from '../publications/post'
+
+const axios = require("axios");
+
+
+const gpt3ApiKey = "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";
+const apiUrl = "https://api.openai.com/v1/chat/completions";
+
+
+async function runChatGPT(prompt:string) {
+  try {
+    const headers = {
+      Authorization: `Bearer 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`,
+      "Content-Type": "application/json",
+    };
+
+    const data = {
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+    };
+
+    const response = await axios.post(apiUrl, data, { headers });
+
+    const replies = response.data.choices.map(
+      (choice: any) => choice.message.content
+    );
+    return replies;
+  } catch (error:any) {
+    console.error("Erreur :", error.message);
+    return [];
+  }
+}
+
 
 export const test1 = async () => {
  
@@ -36,8 +69,18 @@ export const test1 = async () => {
    
   console.log(publication)
  
-  //await addReaction(publicationsList.explorePublications.items[0].id)
-  await createMirror(publicationId)
+  
+  const userPrompt = "make me a joke";
+runChatGPT(userPrompt)
+  .then(async(replies) => {
+    console.log("Réponses générées :", replies);
+    await createPost(replies);
+  })
+  .catch((error) => {
+    console.error("Erreur :", error.message);
+  })
+  //await addReaction(publicationId)
+  //await createMirror(publicationId)
 };
 
 (async () => {
