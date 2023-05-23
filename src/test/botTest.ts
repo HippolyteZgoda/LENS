@@ -70,11 +70,12 @@ export const test1 = async () => {
   console.log(publication)
  
   
-  const userPrompt = "make me a joke";
+  const userPrompt = "make a post similar to a tweet talking about lava";
 runChatGPT(userPrompt)
   .then(async(replies) => {
     console.log("Réponses générées :", replies);
-    await createPost(replies);
+
+    await createPost(String(replies));
   })
   .catch((error) => {
     console.error("Erreur :", error.message);
