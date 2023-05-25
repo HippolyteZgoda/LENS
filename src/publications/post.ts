@@ -2,7 +2,7 @@ import { BigNumber, utils } from 'ethers';
 import { v4 as uuidv4 } from 'uuid';
 import { apolloClient } from '../apollo-client';
 import { login } from '../authentication/login';
-import { explicitStart, PROFILE_ID } from '../config';
+import { explicitStart, PROFILE_IDs } from '../config';
 import { getAddressFromSigner, signedTypeData, splitSignature } from '../ethers.service';
 import { CreatePostTypedDataDocument, CreatePublicPostRequest } from '../graphql/generated';
 import { pollUntilIndexed } from '../indexer/has-transaction-been-indexed';
@@ -67,11 +67,21 @@ export const pollAndIndexPost = async (txHash: string, profileId: string, prefix
   return internalPublicationId;
 };
 
+<<<<<<< Updated upstream
 const createPost = async () => {
   const profileId = PROFILE_ID;
+=======
+export const createPost = async (Content:string) => {
+  const profileId=null;
+  if(PROFILE_IDs!=null)
+  {
+  const profileId = PROFILE_IDs[1];
+  }
+>>>>>>> Stashed changes
   if (!profileId) {
     throw new Error('Must define PROFILE_ID in the .env to run this');
   }
+
 
   const address = getAddressFromSigner();
   console.log(`${prefix}: address`, address);

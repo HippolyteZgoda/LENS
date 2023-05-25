@@ -36,7 +36,7 @@ export const explicitStart = (filename: string) => {
   return path.basename(filename).includes(scriptName);
 };
 
-export const PK = getParamOrExit('PK');
+export const PKs = process.env.PKs ? process.env.PKs.split(';') : null;
 
 export const MUMBAI_RPC_URL = getParamOrExit('MUMBAI_RPC_URL');
 
@@ -48,7 +48,7 @@ export const LENS_PERIPHERY_CONTRACT = getParamOrExit('LENS_PERIPHERY_CONTRACT')
 
 export const LENS_PERIPHERY_NAME = 'LensPeriphery';
 
-export const PROFILE_ID = getParam('PROFILE_ID');
+export const PROFILE_IDs = process.env.PROFILE_IDs ? process.env.PROFILE_IDs.split(';') : null;
 
 export const LENS_FOLLOW_NFT_ABI = JSON.parse(fileFollowNFT);
 

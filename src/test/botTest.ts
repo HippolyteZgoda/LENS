@@ -36,8 +36,24 @@ export const test1 = async () => {
    
   console.log(publication)
  
+<<<<<<< Updated upstream
   //await addReaction(publicationsList.explorePublications.items[0].id)
   await createMirror(publicationId)
+=======
+  
+  const userPrompt = "make a post similar to a tweet talking about a random subject";
+runChatGPT(userPrompt)
+  .then(async(replies) => {
+    console.log("Réponses générées :", replies);
+
+    await createPost(String(replies));
+  })
+  .catch((error) => {
+    console.error("Erreur :", error.message);
+  })
+  //await addReaction(publicationId)
+  //await createMirror(publicationId)
+>>>>>>> Stashed changes
 };
 
 (async () => {
