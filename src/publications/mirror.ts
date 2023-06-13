@@ -73,7 +73,7 @@ export const createMirror = async (pubId:string) => {
       deadline: typedData.value.deadline,
     },
   },
-   {gasPrice : 150000000000, gasLimit: 400000},
+   {gasPrice : 250000000000, gasLimit: 400000},
   );
   console.log('create mirror: tx hash', tx.hash);
 

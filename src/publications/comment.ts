@@ -24,7 +24,7 @@ export const createCommentTypedData = async (request: CreatePublicCommentRequest
 
 export const signCreateCommentTypedData = async (request: CreatePublicCommentRequest) => {
   const result = await createCommentTypedData(request);
-  console.log('create comment: createCommentTypedData', result);
+  //console.log('create comment: createCommentTypedData', result);
 
   const typedData = result.typedData;
   console.log('create comment: typedData', typedData);
@@ -65,7 +65,7 @@ export const pollAndIndexComment = async (txHash: string, profileId: string, pre
   );
 };
 
-const createComment = async () => {
+export const createComment = async (content:string,publcationID:string) => {
   const profileId = PROFILE_ID;
   if (!profileId) {
     throw new Error('Must define PROFILE_ID in the .env to run this');
@@ -80,24 +80,22 @@ const createComment = async () => {
     version: '2.0.0',
     mainContentFocus: PublicationMainFocus.TEXT_ONLY,
     metadata_id: uuidv4(),
-    description: 'Description',
-    locale: 'en-US',
-    content: 'Content',
+    locale: 'en-FR',
+    content: content,
     external_url: null,
     image: null,
     imageMimeType: null,
     name: 'Name',
     attributes: [],
-    tags: ['using_api_examples'],
-    appId: 'api_examples_github',
+    appId: 'Lenster',
   });
-  console.log(`${prefix}: ipfs result`, ipfsResult);
+  //console.log(`${prefix}: ipfs result`, ipfsResult);
 
   // hard coded to make the code example clear
   const createCommentRequest: CreatePublicCommentRequest = {
     profileId,
     // remember it has to be indexed and follow metadata standards to be traceable!
-    publicationId: `0x0f-0x01`,
+    publicationId: publcationID,
     contentURI: `ipfs://${ipfsResult.path}`,
     collectModule: {
       // timedFeeCollectModule: {
@@ -116,7 +114,7 @@ const createComment = async () => {
   };
 
   const signedResult = await signCreateCommentTypedData(createCommentRequest);
-  console.log(`${prefix}: signedResult`, signedResult);
+  //console.log(`${prefix}: signedResult`, signedResult);
 
   const typedData = signedResult.result.typedData;
 
@@ -140,15 +138,10 @@ const createComment = async () => {
         deadline: typedData.value.deadline,
       },
     },
-    { gasLimit: 500000 }
+      {gasPrice : 250000000000, gasLimit: 400000},
   );
   console.log(`${prefix}: tx hash`, tx.hash);
 
-  await pollAndIndexComment(tx.hash, profileId, prefix);
+  //await pollAndIndexComment(tx.hash, profileId, prefix);
 };
 
-(async () => {
-  if (explicitStart(__filename)) {
-    await createComment();
-  }
-})();

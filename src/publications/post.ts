@@ -27,7 +27,7 @@ export const signCreatePostTypedData = async (request: CreatePublicPostRequest) 
   console.log('create post: createPostTypedData', result);
 
   const typedData = result.typedData;
-  console.log('create post: typedData', typedData);
+ // console.log('create post: typedData', typedData);
 
   const signature = await signedTypeData(typedData.domain, typedData.types, typedData.value);
   console.log('create post: signature', signature);
@@ -51,10 +51,10 @@ export const pollAndIndexPost = async (txHash: string, profileId: string, prefix
   console.log('topicid we care about', topicId);
 
   const profileCreatedLog = logs.find((l: any) => l.topics[0] === topicId);
-  console.log(`${prefix}: created log`, profileCreatedLog);
+ // console.log(`${prefix}: created log`, profileCreatedLog);
 
   let profileCreatedEventLog = profileCreatedLog!.topics;
-  console.log(`${prefix}: created event logs`, profileCreatedEventLog);
+ // console.log(`${prefix}: created event logs`, profileCreatedEventLog);
 
   const publicationId = utils.defaultAbiCoder.decode(['uint256'], profileCreatedEventLog[2])[0];
 
@@ -62,12 +62,13 @@ export const pollAndIndexPost = async (txHash: string, profileId: string, prefix
 
   const internalPublicationId = profileId + '-' + contractPublicationId;
 
-  console.log(`${prefix}: contract publication id`, contractPublicationId);
-  console.log(`${prefix}: internal publication id`, internalPublicationId);
+  //console.log(`${prefix}: contract publication id`, contractPublicationId);
+  //console.log(`${prefix}: internal publication id`, internalPublicationId);
   return internalPublicationId;
 };
 
 export const createPost = async (Content:string) => {
+  console.log("profileidd",PROFILE_ID)
   const profileId = PROFILE_ID;
   if (!profileId) {
     throw new Error('Must define PROFILE_ID in the .env to run this');
@@ -83,17 +84,17 @@ export const createPost = async (Content:string) => {
     mainContentFocus: PublicationMainFocus.TEXT_ONLY,
     metadata_id: uuidv4(),
     description: 'Description',
-    locale: 'en-US',
+    locale: 'en-FR',
     content: Content,
     external_url: null,
     image: null,
     imageMimeType: null,
     name: 'Name',
     attributes: [],
-    tags: ['using_api_examples'],
-    appId: 'api_examples_github',
+    tags: [],
+    appId: 'Lenster',
   });
-  console.log(`${prefix}: ipfs result`, ipfsResult);
+  //console.log(`${prefix}: ipfs result`, ipfsResult);
 
   // hard coded to make the code example clear
   const createPostRequest: CreatePublicPostRequest = {
@@ -191,10 +192,10 @@ export const createPost = async (Content:string) => {
       deadline: typedData.value.deadline,
     },
   },
-      {gasPrice : 150000000000, gasLimit: 400000},
+      {gasPrice : 250000000000, gasLimit: 400000},
 
   );
   console.log(`${prefix}: tx hash`, tx.hash);
 
-  await pollAndIndexPost(tx.hash, profileId, prefix);
+  //await pollAndIndexPost(tx.hash, profileId, prefix);
 };
